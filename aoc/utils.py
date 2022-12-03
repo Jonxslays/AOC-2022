@@ -7,6 +7,15 @@ QuestionT = Callable[[], Any]
 MaybeQuestionT = QuestionT | None
 
 
+def read_input_data(path: Path) -> str:
+    if not path.exists():
+        print(f"No data file located at {str(path)!r}")
+        sys.exit(1)
+
+    with open(path, "r") as f:
+        return f.read()
+
+
 def pretty_name(func: QuestionT) -> str:
     return func.__name__.replace("_", " ").title()
 

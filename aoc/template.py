@@ -1,12 +1,14 @@
+from pathlib import Path
 from typing import Any
 
 from aoc.utils import unimplemented
+from aoc.utils import read_input_data
 
 
 def read_data() -> Any:
     day = __file__.split(".")[0][-1]
-    with open(f"data/day_{day}.txt", "r") as f:
-        _data = f.read()
+    path = Path(f"data/day_{day}.txt")
+    _data = read_input_data(path)
 
 
 @unimplemented
