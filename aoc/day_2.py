@@ -5,6 +5,7 @@ from typing import Any
 # from aoc.utils import unimplemented
 from aoc.utils import read_input_data
 
+
 class Choice(Enum):
     ROCK = 1
     PAPER = 2
@@ -49,23 +50,28 @@ def get_outcome(elf: Choice, us: Choice) -> Outcome:
     if elf is Choice.PAPER:
         if us is Choice.PAPER:
             return Outcome.DRAW
-        elif us is Choice.ROCK:
+
+        if us is Choice.ROCK:
             return Outcome.LOST
+
         return Outcome.WON
 
-    elif elf is Choice.ROCK:
+    if elf is Choice.ROCK:
         if us is Choice.PAPER:
             return Outcome.WON
-        elif us is Choice.ROCK:
+
+        if us is Choice.ROCK:
             return Outcome.DRAW
+
         return Outcome.LOST
 
     if us is Choice.PAPER:
         return Outcome.LOST
-    elif us is Choice.ROCK:
+
+    if us is Choice.ROCK:
         return Outcome.WON
-    else:
-        return Outcome.DRAW
+
+    return Outcome.DRAW
 
 
 def find_win(other: Choice) -> Choice:
@@ -107,7 +113,6 @@ def question_1() -> Any:
         elf = ELF_MAPPING[data_point[0]]
         us = USER_MAPPING[data_point[1]]
         outcome = get_outcome(elf, us)
-
         total += outcome.value + us.value
 
     return total
