@@ -36,22 +36,6 @@ def question_1() -> Any:
     return total
 
 
-def group_elves(data: list[str]) -> list[list[str]]:
-    grouped: list[list[str]] = []
-    group: list[str] = []
-    idx = 0
-
-    for line in data:
-        if idx % 3 == 0 and idx != 0:
-            grouped.append(group)
-            group = []
-
-        group.append(line)
-        idx += 1
-
-    return grouped
-
-
 def group_by_x(x: int, groups: Any) -> Any:
     return list(zip(*([iter(groups)] * x)))
 
