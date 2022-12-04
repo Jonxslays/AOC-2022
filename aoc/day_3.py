@@ -4,7 +4,7 @@ from typing import Any
 # from aoc.utils import unimplemented
 from aoc.utils import read_input_data
 
-GroupT = tuple[str, str ,str]
+GroupT = tuple[str, str, str]
 GroupsT = list[tuple[GroupT, GroupT]]
 
 
@@ -21,11 +21,7 @@ def split_line(line: str) -> tuple[str, str]:
 
 
 def get_value(char: str) -> int:
-    return (
-        ord(char) - 38
-        if char.isupper()
-        else ord(char) - 96
-    )
+    return ord(char) - 38 if char.isupper() else ord(char) - 96
 
 
 # @unimplemented
