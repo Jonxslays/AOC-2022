@@ -1,4 +1,3 @@
-import importlib
 from pathlib import Path
 
 import click
@@ -19,31 +18,41 @@ from aoc import utils
     "--question",
     type=click.IntRange(0, 2),
     default=0,
-    help="The question to run (0 for both).",
+    help="0 for both questions, py only.",
 )
 @click.option(
     "-g",
     "--generate",
     type=click.IntRange(1, 25),
     default=None,
-    help="Generate a new py file for a particular day.",
+    help="Generate a new file for a the day.",
 )
-def aoc(day: int, question: int, generate: int | None) -> None:
+@click.option(
+    "-l",
+    "--language",
+    type=click.Choice(("c", "py", "rs")),
+    default="py",
+    help="The language to be used - One of: c, py, rs.",
+)
+def aoc(day: int, question: int, generate: int | None, language: str) -> None:
     if generate:
-        return utils.create_from_template(generate)
+        return utils.create_from_template(generate, language)
 
     file = f"day_{day}"
-    path = f"aoc/{file}.py"
+    path = f"aoc/{file}" + utils.get_suffix(language)
 
     if not Path(path).exists():
         if click.prompt(f"Path {path!r} does not exist, create it?"):
-            return utils.create_from_template(day)
+            return utils.create_from_template(day, language)
 
-    for func in utils.extract_functions(
-        importlib.import_module(f"aoc.{file}").__dict__, question
-    ):
-        if result := func():
-            print(f"{utils.pretty_name(func)}: {result}")
+    if language == "py":
+        return utils.use_python(file, question)
+
+    if language == "c":
+        return utils.use_c(file, path)
+
+    if language == "rs":
+        return utils.use_rust(file, path)
 
 
 if __name__ == "__main__":
