@@ -111,8 +111,10 @@ def use_python(file: str, question: int) -> None:
             print(f"{pretty_name(func)}: {result}")
 
 
-def _compile_and_run(outfile: str, file: str, compiler: str) -> None:
-    proc = subprocess.run([compiler, file, "-o", outfile])
+def _compile_and_run(
+    outfile: str, file: str, compiler: str, *compiler_args: str
+) -> None:
+    proc = subprocess.run([compiler, file, "-o", outfile, *compiler_args])
 
     if not proc.returncode:
         subprocess.run(outfile)
@@ -121,7 +123,9 @@ def _compile_and_run(outfile: str, file: str, compiler: str) -> None:
 
 
 def use_c(outfile: str, file: str) -> None:
-    return _compile_and_run(f"bin/{outfile}_c", file, "gcc")
+    return _compile_and_run(
+        f"bin/{outfile}_c", file, "gcc", "-Wall", "-Wextra", "-Werror"
+    )
 
 
 def use_rust(outfile: str, file: str) -> None:
