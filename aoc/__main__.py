@@ -5,7 +5,8 @@ import click
 from aoc import utils
 
 
-@click.command()
+# Apparently the click deco typing is broken again :(
+@click.command()  # pyright: ignore [reportUnknownMemberType]
 @click.option(
     "-d",
     "--day",
@@ -27,32 +28,15 @@ from aoc import utils
     default=None,
     help="Generate a new file for a the day.",
 )
-@click.option(
-    "-l",
-    "--language",
-    type=click.Choice(("c", "py", "rs")),
-    default="py",
-    help="The language to be used - One of: c, py, rs.",
-)
-def aoc(day: int, question: int, generate: int | None, language: str) -> None:
-    if generate:
-        return utils.create_from_template(generate, language)
-
+def aoc(day: int, question: int, generate: int | None) -> None:
     file = f"day_{day}"
-    path = f"aoc/{file}" + utils.get_suffix(language)
+    path = f"aoc/{file}.py"
 
-    if not Path(path).exists():
+    if not Path(path).exists() or generate:
         if click.prompt(f"Path {path!r} does not exist, create it?"):
-            return utils.create_from_template(day, language)
+            return utils.create_from_template(generate if generate else day)
 
-    if language == "py":
-        return utils.use_python(file, question)
-
-    if language == "c":
-        return utils.use_c(file, path)
-
-    if language == "rs":
-        return utils.use_rust(file, path)
+    return utils.use_python(file, question)
 
 
 if __name__ == "__main__":

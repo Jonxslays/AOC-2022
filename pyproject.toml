@@ -1,5 +1,6 @@
 [tool.pyright]
 typeCheckingMode = "strict"
+include = ["aoc"]
 
 [tool.black]
 line-length = 80
