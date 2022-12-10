@@ -26,7 +26,7 @@ from aoc import utils
     "--generate",
     type=click.IntRange(1, 25),
     default=None,
-    help="Generate a new file for a the day.",
+    help="Generate a new file for a day.",
 )
 def aoc(day: int, question: int, generate: int | None) -> None:
     file = f"day_{day}"
